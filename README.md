@@ -1,6 +1,63 @@
 # COMP1220
 
 
+## 12.11 LAB: Course Grade
+
+```
+def grader(score):
+    if score >= 90:
+        return 'A'
+    elif score >= 80:
+        return 'B'
+    elif score >= 70:
+        return 'C'
+    elif score >= 60:
+        return 'D'
+    else:
+        return 'F'
+
+file_name = input("Enter the file name: ")
+
+# Initialize data structures for storing exam scores
+midterm1_scores = []
+midterm2_scores = []
+final_scores = []
+students_info = []
+
+with open(file_name, 'r') as file:
+    for line in file:
+        if line.strip():  # Ensure that the line is not empty
+            parts = line.strip().split('\t')
+            last_name = parts[0]
+            first_name = parts[1]
+            midterm1 = int(parts[2])
+            midterm2 = int(parts[3])
+            final = int(parts[4])
+
+            # Compute the average score
+            average = (midterm1 + midterm2 + final) / 3
+            grade = grader(average)
+
+            # Store scores for averages calculation
+            midterm1_scores.append(midterm1)
+            midterm2_scores.append(midterm2)
+            final_scores.append(final)
+
+            # Store student information
+            students_info.append((last_name, first_name, midterm1, midterm2, final, grade)) 
+
+avg_midterm1 = sum(midterm1_scores) / len(midterm1_scores)
+avg_midterm2 = sum(midterm2_scores) / len(midterm2_scores)
+avg_final = sum(final_scores) / len(final_scores)
+
+# Write to the report file
+with open('report.txt', 'w') as report:
+    for info in students_info:
+        report.write(f"{info[0]}\t{info[1]}\t{info[2]}\t{info[3]}\t{info[4]}\t{info[5]}")
+    report.write(f"Averages: midterm1 {avg_midterm1:.2f}, midterm2 {avg_midterm2:.2f}, final {avg_final:.2f}\n")
+
+```
+
 ## 15.6 LAB: Course grade statistics (pandas)
 
 ```
